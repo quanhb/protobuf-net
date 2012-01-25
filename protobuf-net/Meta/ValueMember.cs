@@ -398,6 +398,9 @@ namespace ProtoBuf.Meta
                 case ProtoTypeCode.DateTime:
                     defaultWireType = GetDateTimeWireType(dataFormat);
                     return new DateTimeSerializer();
+                case ProtoTypeCode.DateTimeOffset:
+                    defaultWireType = GetDateTimeWireType(dataFormat);
+                    return new DateTimeOffsetSerializer();
                 case ProtoTypeCode.Decimal:
                     defaultWireType = WireType.String;
                     return new DecimalSerializer();

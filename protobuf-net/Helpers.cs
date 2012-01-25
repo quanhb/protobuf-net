@@ -235,6 +235,7 @@ namespace ProtoBuf
             if (type == typeof(Guid)) return ProtoTypeCode.Guid;
             if (type == typeof(Uri)) return ProtoTypeCode.Uri;
             if (type == typeof(byte[])) return ProtoTypeCode.ByteArray;
+            if (type == typeof(DateTimeOffset)) return ProtoTypeCode.DateTimeOffset;
 
             return ProtoTypeCode.Unknown;
 #endif
@@ -345,6 +346,7 @@ namespace ProtoBuf
         TimeSpan = 100,
         ByteArray = 101,
         Guid = 102,
-        Uri = 103
+        Uri = 103,
+        DateTimeOffset = 104,
     }
 }

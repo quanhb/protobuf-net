@@ -37,6 +37,7 @@ namespace ProtoBuf.Meta
                     return WireType.Fixed32;
                 case ProtoTypeCode.String:
                 case ProtoTypeCode.DateTime:
+                case ProtoTypeCode.DateTimeOffset:
                 case ProtoTypeCode.Decimal:
                 case ProtoTypeCode.ByteArray:
                 case ProtoTypeCode.TimeSpan:
@@ -115,6 +116,7 @@ namespace ProtoBuf.Meta
                 case ProtoTypeCode.Double: ProtoWriter.WriteDouble((double)value, writer); return true;
                 case ProtoTypeCode.Single: ProtoWriter.WriteSingle((float)value, writer); return true;
                 case ProtoTypeCode.DateTime: BclHelpers.WriteDateTime((DateTime)value, writer); return true;
+                case ProtoTypeCode.DateTimeOffset: BclHelpers.WriteDateTimeOffset((DateTimeOffset)value, writer); return true;
                 case ProtoTypeCode.Decimal: BclHelpers.WriteDecimal((decimal)value, writer); return true;
                 case ProtoTypeCode.String: ProtoWriter.WriteString((string)value, writer); return true;
                 case ProtoTypeCode.ByteArray: ProtoWriter.WriteBytes((byte[])value, writer); return true;
@@ -915,6 +917,7 @@ namespace ProtoBuf.Meta
                     case ProtoTypeCode.Double: value = reader.ReadDouble(); continue;
                     case ProtoTypeCode.Single: value = reader.ReadSingle(); continue;
                     case ProtoTypeCode.DateTime: value = BclHelpers.ReadDateTime(reader); continue;
+                    case ProtoTypeCode.DateTimeOffset: value = BclHelpers.ReadDateTimeOffset(reader); continue;
                     case ProtoTypeCode.Decimal: value = BclHelpers.ReadDecimal(reader); continue;
                     case ProtoTypeCode.String: value = reader.ReadString(); continue;
                     case ProtoTypeCode.ByteArray: value = ProtoReader.AppendBytes((byte[])value, reader); continue;

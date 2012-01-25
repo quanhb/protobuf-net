@@ -169,6 +169,43 @@ namespace ProtoBuf
             WriteTimeSpan(delta, dest);
         }
 
+        const int FieldDateTime = 1, FieldOffset = 2;
+
+        /// <summary>
+        /// Parses a DateTimeOffset from a protobuf stream
+        /// </summary>
+        public static DateTimeOffset ReadDateTimeOffset(ProtoReader source)
+        {
+            SubItemToken token = ProtoReader.StartSubItem(source);
+            DateTime dateTime = DateTime.MinValue;
+            TimeSpan offset = TimeSpan.MinValue;
+            int fieldNumber;
+            while ((fieldNumber = source.ReadFieldHeader()) > 0)
+            {
+                switch (fieldNumber)
+                {
+                    case FieldDateTime: dateTime = ReadDateTime(source); break;
+                    case FieldOffset: offset = ReadTimeSpan(source); break;
+                    default: source.SkipField(); break;
+                }
+            }
+            ProtoReader.EndSubItem(token, source);
+            return new DateTimeOffset(dateTime, offset);
+        }
+
+        /// <summary>
+        /// Writes a DateTimeOffset to a protobuf stream
+        /// </summary>
+        public static void WriteDateTimeOffset(DateTimeOffset value, ProtoWriter dest)
+        {
+            SubItemToken token = ProtoWriter.StartSubItem(null, dest);
+            ProtoWriter.WriteFieldHeader(FieldDateTime, WireType.StartGroup, dest);
+            WriteDateTime(value.DateTime, dest);
+            ProtoWriter.WriteFieldHeader(FieldOffset, WireType.StartGroup, dest);
+            WriteTimeSpan(value.Offset, dest);
+            ProtoWriter.EndSubItem(token, dest);
+        }
+
         private static long ReadTimeSpanTicks(ProtoReader source) {
             switch (source.WireType)
             {
