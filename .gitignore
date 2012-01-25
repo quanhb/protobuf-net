@@ -1,0 +1,7 @@
+bin
+obj
+
+*.docstates
+*.suo
+*.user
+*.cache
