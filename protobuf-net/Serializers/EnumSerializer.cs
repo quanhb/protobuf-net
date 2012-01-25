@@ -180,8 +180,8 @@ namespace ProtoBuf.Serializers
                     foreach (BasicList.Group group in BasicList.GetContiguousGroups(wireValues, values))
                     {
                         Compiler.CodeLabel tryNextGroup = ctx.DefineLabel();
-                        int groupItemCount = group.Items.Count;
-                        if (groupItemCount == 1)
+                        //int groupItemCount = group.Items.Count;
+                        //if (groupItemCount == 1)
                         {
                             // discreet group; use an equality test
                             ctx.LoadValue(wireValue);
@@ -191,24 +191,24 @@ namespace ProtoBuf.Serializers
                             ctx.Branch(tryNextGroup, false);
                             WriteEnumValue(ctx, typeCode, processThisValue, @continue, group.Items[0], @result);
                         }
-                        else
-                        {
-                            // implement as a jump-table-based switch
-                            ctx.LoadValue(wireValue);
-                            ctx.LoadValue(group.First);
-                            ctx.Subtract(); // jump-tables are zero-based
-                            Compiler.CodeLabel[] jmp = new Compiler.CodeLabel[groupItemCount];
-                            for (int i = 0; i < groupItemCount; i++) {
-                                jmp[i] = ctx.DefineLabel();
-                            }
-                            ctx.Switch(jmp);
-                            // write the default...
-                            ctx.Branch(tryNextGroup, false);
-                            for (int i = 0; i < groupItemCount; i++)
-                            {
-                                WriteEnumValue(ctx, typeCode, jmp[i], @continue, group.Items[i], @result);
-                            }
-                        }
+                        //else
+                        //{
+                        //    // implement as a jump-table-based switch
+                        //    ctx.LoadValue(wireValue);
+                        //    ctx.LoadValue(group.First);
+                        //    ctx.Subtract(); // jump-tables are zero-based
+                        //    Compiler.CodeLabel[] jmp = new Compiler.CodeLabel[groupItemCount];
+                        //    for (int i = 0; i < groupItemCount; i++) {
+                        //        jmp[i] = ctx.DefineLabel();
+                        //    }
+                        //    ctx.Switch(jmp);
+                        //    // write the default...
+                        //    ctx.Branch(tryNextGroup, false);
+                        //    for (int i = 0; i < groupItemCount; i++)
+                        //    {
+                        //        WriteEnumValue(ctx, typeCode, jmp[i], @continue, group.Items[i], @result);
+                        //    }
+                        //}
                         ctx.MarkLabel(tryNextGroup);
                     }
                     // throw source.CreateEnumException(ExpectedType, wireValue);
